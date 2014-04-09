@@ -33,6 +33,16 @@ severals users.
 
 All files are installed in `/usr/local/etc/pm/`.
 
+###Disable Auto-Suspend on Systemd
+
+If your using Systemd, the computer will be suspend when the computer screen is
+closed. For avoiding the management of that feature by Systemd you need to
+uncomment the line of `HandleLidSwicth` in the file `/etc/systemd/logind.conf`:
+
+```bash
+HandleLidSwicth=ignore
+```
+
 ### Uninstallation
 
 If you want to uninstall this script, please do:
