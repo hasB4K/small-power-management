@@ -56,12 +56,12 @@ Usage
 This script takes severals arguments.
 Some of them take those options: {lock, suspend, all}.
 
-* -h, --help                Display the help
+* -u, --user [User]         Set the current user
+* -l, --locker [Locker]     Set a default Locker (eg. i3lock, slimlock, ...).
 * -e, --enable [Options]    Enable the options.
 * -d, --disable [Options]   Disable the options.
 * -p, --perform             Execute the script with the setted options.
-* -u, --user [User]         Set the current user
-* -l, --locker              Set a default Locker (eg. i3lock, slimlock, ...).
+* -h, --help                Display the help
 
 Dependencies
 ------------
