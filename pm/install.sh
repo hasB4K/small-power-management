@@ -1,18 +1,21 @@
-#!/bin/sh
+#!/bin/bash
 
 DIR="/usr/local/etc/pm"
 
 install()
 {
+    cd "$( dirname "${BASH_SOURCE[0]}" )"
     mkdir -p $DIR
-    cp -r * $DIR
+    cp events_pm events_pm.sh install.sh pm.py $DIR
     touch $DIR/user
     chmod 666 $DIR/user
-    touch /etc/acpi/y
     if [ ! -f /usr/bin/pm ]
     then
         ln -s $DIR/pm.py /usr/bin/pm
     fi
+    echo "Please do \"pm -u $USER\"."
+    echo "If you want to have this set by default on your login"
+    echo "please add this to your .xinitrc file or .xsession file."
 }
 
 display_acpi_info()
@@ -24,8 +27,12 @@ install_acpi()
 {
     if [ -d /etc/acpi ]
     then
-        ln -s $DIR/events_pm /etc/acpi/events/
-        display_acpi_info
+        if [ ! -L /etc/acpi/events/events_pm ]
+        then
+            ln -s $DIR/events_pm /etc/acpi/events/
+            echo
+            display_acpi_info
+        fi
     else
         echo "acpi is not installed."
     fi
