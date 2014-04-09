@@ -7,7 +7,7 @@ import sys
 import os
 
 
-#DEFAULT VARIABLE (
+#DEFAULT VARIABLE
 #Those variables should never be changed during the execution!
 #dir_user_name = "/usr/local/etc/pm/user"
 dir_user_name = os.path.dirname(os.path.realpath(__file__)) + "/user"
@@ -43,9 +43,16 @@ def write_config(dirconf, configs):
     f.close()
 
 
-def perform_config(user, display, configs):
+def display_config(configs):
     suspend, lock, locker = configs
-    os.environ["DISPLAY"] = display         #For i3lock
+    print("Lock option is " + ("Enabled" if lock else "Disabled"))
+    print("Suspend option is " + ("Enabled" if suspend else "Disabled"))
+    print("Locker is " + locker)
+
+
+def perform_config(user, display, configs):     #The script execute commands
+    suspend, lock, locker = configs
+    os.environ["DISPLAY"] = display             #For i3lock
     if (lock and subprocess.call(["pgrep","slimlock"]) != 0):
         if (getpass.getuser() == user):
             subprocess.Popen(locker)
@@ -55,18 +62,13 @@ def perform_config(user, display, configs):
         subprocess.Popen(suspend_command.split())
 
 
-def display_config(configs):
-    suspend, lock, locker = configs
-    print("Lock option is " + ("Enabled" if lock else "Disabled"))
-    print("Suspend option is " + ("Enabled" if suspend else "Disabled"))
-    print("Locker is " + locker)
-
 #USER CONFIG MANAGEMENT
 def check_user(user):
     for item in pwd.getpwall():
         if (item[0] == user):
-            return False
-    return True
+            return False                        #The user exist. No errors.
+    return True                                 #The user doesn't exist.
+
 
 def get_user():
     error, user, display = False, "", ""
@@ -78,7 +80,7 @@ def get_user():
             error = True
         else:
             user = lines[0]
-            display = lines[1]
+            display = lines[1]                  #We fetch the saved display var
             error = check_user(user)
     if (error):
         print("Please initialize correctly the username with -u/--user.")
@@ -91,24 +93,25 @@ def write_user(user):
     f = open(dir_user_name, "w")
     check_user(user)
     f.write(user+"\n")
-    f.write(os.environ["DISPLAY"]+"\n")
-    if (not exist):
+    f.write(os.environ["DISPLAY"]+"\n")         #We save the display var
+    if (not exist):                             #This should never happen!
         subprocess.Popen(["chmod", "666", dir_user_name])
 
 
-#ARGUMENTS MANAGEMENT
+#OPTIONS MANAGEMENT
 def get_options(option):
     suspend = (option == "all" or option == "suspend")
     lock = (option == "all" or option == "lock")
     return (suspend, lock)
 
 
-def get_new_value(enable, disable, conf):
-    #If disable is PRIVILEGED uncomment the following line
+def get_new_value(enable, disable, conf):       #We privileged "Enable".
+    #If you want to have "Disable" privileged uncomment the following line
     #return (not disable) and (conf or enable)
     return enable or (conf and not disable)
 
 
+#ARGUMENTS MANAGEMENT
 def set_options(user, dirconf, args, configs):
     conf_suspend, conf_lock, conf_locker = configs
     en_suspend, en_lock = get_options(args.enable)
