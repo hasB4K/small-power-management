@@ -9,13 +9,19 @@ By default the script is executed when ACPI detect that the screen is closed.
 Installation
 ------------
 
+### Full installation
+If you want to fully install PM, proceed like this:
 ```bash
 git clone https://github.com/hasB4K/small-power-management.git
 cd small-power-management/pm
 sudo ./install.sh all
 pm -u $USER
 ```
-You will to restart your ACPI daemon.
+You will need to restart your ACPI daemon.
+If your using Systemd proceed like this:
+```bash
+sudo systemctl restart acpid
+```
 
 Please make sure to add the following line in your .xinitrc or .xprofile file:
 ```bash
@@ -27,11 +33,18 @@ severals users.
 
 All files are installed in `/usr/local/etc/pm/`.
 
-Arguments
+### Uninstallation
+
+If you want to uninstall this script, please do:
+```bash
+sudo /usr/local/etc/pm/install.sh uninstall
+```
+
+Usage
 ---------
 
 This script takes severals arguments.
-Some of them take these options: {lock, suspend, all}.
+Some of them take those options: {lock, suspend, all}.
 
 * -h, --help                Display the help
 * -e, --enable [Options]    Enable the options.
@@ -43,13 +56,13 @@ Some of them take these options: {lock, suspend, all}.
 Dependencies
 ------------
 
-By default PM need to have the ACPI Daemon installed. He will install an event
-file to `/etc/acpi/events/events_pm`.
+By default PM need to have the ACPI Daemon installed. An event file will be
+installed to `/etc/acpi/events/events_pm`.
 
-Please make sure to have install ACPI before using this script. If you want to
-use this script without ACPI, please notice that the script will no longer be
-executed when the screen will be closed. However if you decide to use the
-script "as is" you can install it by doing:
+Please make sure to have installed ACPI before using this script. If you want
+to use this script without ACPI, please notice that the script will no longer
+be executed when the screen will be closed. However you still still can use
+this script "as is". You can do that by doing:
 
 ```bash
 sudo ./install.sh install

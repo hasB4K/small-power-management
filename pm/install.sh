@@ -34,7 +34,7 @@ install_acpi()
 uninstall()
 {
     rm -r $DIR
-    if [ -f /etc/acpi/events/events_pm ]
+    if [ -L /etc/acpi/events/events_pm ]
     then
         rm /etc/acpi/events/events_pm
         display_acpi_info
