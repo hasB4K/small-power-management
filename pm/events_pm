@@ -1,0 +1,3 @@
+# Pass all events to our one handler script
+event=.*
+action=/usr/local/etc/pm/events_pm.sh %e
