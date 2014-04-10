@@ -13,7 +13,7 @@ install()
     then
         ln -s $DIR/pm.py /usr/bin/pm
     fi
-    echo "Please do \"pm -u $USER\"."
+    echo "Please do \"pm -u \$USER\"."
     echo "If you want to have this set by default on your login"
     echo "please add this to your .xinitrc file or .xsession file."
 }

@@ -63,28 +63,30 @@ def perform_config(user, display, configs):     #The script execute commands
 
 
 #USER CONFIG MANAGEMENT
+def error_user():
+    print("Please initialize correctly the username with -u/--user.")
+    sys.exit(1)
+
+
 def check_user(user):
     for item in pwd.getpwall():
         if (item[0] == user):
-            return False                        #The user exist. No errors.
-    return True                                 #The user doesn't exist.
+            return                              #The user exist. No errors.
+    error_user()                                #The user doesn't exist.
 
 
 def get_user():
     error, user, display = False, "", ""
     if (not os.path.isfile(dir_user_name)):
-        error = True
+        error_user()
     else:
         lines = open(dir_user_name).read().split()
         if (len(lines) <= 1):
-            error = True
+            error_user()
         else:
             user = lines[0]
             display = lines[1]                  #We fetch the saved display var
-            error = check_user(user)
-    if (error):
-        print("Please initialize correctly the username with -u/--user.")
-        sys.exit(1)
+            check_user(user)
     return (user, display)
 
 
