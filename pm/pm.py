@@ -90,10 +90,10 @@ def get_user():
     return (user, display)
 
 
-def write_user(user):
+def write_user():
+    user = getpass.getuser()
     exist = os.path.isfile(dir_user_name)
     f = open(dir_user_name, "w")
-    check_user(user)
     f.write(user+"\n")
     f.write(os.environ["DISPLAY"]+"\n")         #We save the display var
     if (not exist):                             #This should never happen!
@@ -133,7 +133,7 @@ def fetch_args():
             epilog="Options are {lock, suspend, all}.")
     parser.add_argument("-p", "--perform", help="Perform power management",
             action="store_true")
-    parser.add_argument("-u", "--user", help="Set user.")
+    parser.add_argument("-u", "--user", help="Set user.", action="store_true")
     parser.add_argument("-l", "--locker", help="Set locker.")
     parser.add_argument("-d", "--disable",metavar="OPTIONS", choices =
             ["suspend", "lock", "all"], help='Disable options')
@@ -145,8 +145,8 @@ def fetch_args():
 #MAIN
 def main():
     args = fetch_args()
-    if (args.user != None):
-        write_user(args.user)
+    if (args.user):
+        write_user()
     user,display = get_user()
     dirconf = os.path.expanduser("~"+user+"/.pmconfig")
     configs = get_config(dirconf)

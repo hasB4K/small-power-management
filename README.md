@@ -15,7 +15,7 @@ If you want to fully install PM, proceed like this:
 git clone https://github.com/hasB4K/small-power-management.git
 cd small-power-management/pm
 sudo ./install.sh all
-pm -u $USER
+pm -u
 ```
 You will need to restart your ACPI daemon.
 If your using Systemd proceed like this:
@@ -25,7 +25,7 @@ sudo systemctl restart acpid
 
 Please make sure to add the following line in your .xinitrc or .xprofile file:
 ```bash
-pm -u $USER
+pm -u
 ```
 This command will initialize the current user which is logged if they are
 severals users.
@@ -56,7 +56,7 @@ Usage
 This script takes severals arguments.
 Some of them take those options: {lock, suspend, all}.
 
-* -u, --user [User]         Set the current user
+* -u, --user                Set the current user
 * -l, --locker [Locker]     Set a default Locker (eg. i3lock, slimlock, ...).
 * -e, --enable [Options]    Enable the options.
 * -d, --disable [Options]   Disable the options.
