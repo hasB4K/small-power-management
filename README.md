@@ -54,7 +54,7 @@ Usage
 ---------
 
 This script takes severals arguments.
-Some of them take those options: {lock, suspend, all}.
+Some of them take those options: {suspend | s, lock | l,  all | a}.
 
 * -u, --user                Set the current user
 * -l, --locker [Locker]     Set a default Locker (eg. i3lock, slimlock, ...).

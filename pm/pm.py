@@ -101,10 +101,14 @@ def write_user():
 
 
 #OPTIONS MANAGEMENT
-def get_options(option):
-    suspend = (option == "all" or option == "suspend")
-    lock = (option == "all" or option == "lock")
-    return (suspend, lock)
+def get_options(option):                        #Return Supend,Lock
+    if (option == "all" or option == "a"):
+        return (True, True)
+    if (option == "suspend" or option=="s"):
+        return (True, False)
+    if (option == "lock" or option == "l"):
+        return (False, True)
+    return (False, False)
 
 
 def get_new_value(enable, disable, conf):       #We privileged "Enable".
@@ -128,17 +132,18 @@ def set_options(user, dirconf, args, configs):
 
 
 def fetch_args():
+    options = ["suspend", "s", "lock", "l", "all", "a"]
     parser = argparse.ArgumentParser(
             description="A power management scipt. Enable or disable Options.",
-            epilog="Options are {lock, suspend, all}.")
+            epilog="Options are {lock | l, suspend | s, all | a}.")
     parser.add_argument("-p", "--perform", help="Perform power management",
             action="store_true")
     parser.add_argument("-u", "--user", help="Set user.", action="store_true")
     parser.add_argument("-l", "--locker", help="Set locker.")
     parser.add_argument("-d", "--disable",metavar="OPTIONS", choices =
-            ["suspend", "lock", "all"], help='Disable options')
+            options, help='Disable options')
     parser.add_argument("-e", "--enable",metavar="OPTIONS", choices =
-            ["suspend", "lock", "all"], help='Enable options [PRIVILEGED]')
+            options, help='Enable options [PRIVILEGED]')
     return parser.parse_args()
 
 
