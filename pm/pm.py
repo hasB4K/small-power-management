@@ -56,7 +56,7 @@ def perform_config(user, display, configs):     # The script execute commands
         if (getpass.getuser() == user):
             subprocess.Popen(locker)
         else:
-            subprocess.Popen(["su", user, "-c"] + locker)
+            subprocess.Popen(["sudo", "-u", user] + locker)
     if (suspend):
         subprocess.Popen(suspend_command.split())
 
